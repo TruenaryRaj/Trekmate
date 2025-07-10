@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import userRoutes from './user.routes';
 import { authenticateToken } from '../middleware/auth.middleware';
 import { authorize } from '../middleware/authorize.middleware';
-import adminRoutes from './admin.routes';
+import { destinationController } from '../controllers/destination.controller';
 
 const router = Router();
 
-router.use('/user', userRoutes); 
-router.use('/admin', adminRoutes )
+router.post('/add', authenticateToken, authorize(['admin']), destinationController.addDestination )
 
 export default router;

@@ -5,12 +5,13 @@ import { generateToken } from '../middleware/auth.middleware';
 export const userController = {
 
     async addUser(req: Request, res: Response) {
-        const { name, email, phone, password} = req.body;
+        const { name, email, phone, role, password} = req.body;
         const hashed = await bcrypt.hash(password,10);
         await userRepositories.createUser(
             name,
             email,
             hashed,
+            role,
             phone
         )
         res.status(201).json({
@@ -31,7 +32,10 @@ export const userController = {
         if (!isPasswordValid) {
             res.status(401).json({ message: "Invalid username or password" });
         }
-        const token = generateToken(email);
+        const token = generateToken(
+            validateUser[0].email!,
+            validateUser[0].role!
+        );
         res.status(201).json({
             token,
             message: "user login sucessful"

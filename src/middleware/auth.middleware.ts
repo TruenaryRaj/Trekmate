@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import { RoleTypes, User } from '../types';
+import jwt from 'jsonwebtoken';
 
-export const generateToken = ( email: string) : string => {
+const secret = process.env.JWT_SECRET || 'secretkey';
+export const generateToken = ( email: string, role: RoleTypes) : string => {
         const token = jwt.sign(
-            {email},
-            process.env.JWT_SECRET!,
+            { email, role },
+            secret,
             { expiresIn: '1h'}
         );
         return token;
@@ -14,11 +16,22 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     const authHeader = req.headers['authorization'];
     const token = authHeader?.split(' ')[1];
 
-    if (!token) return res.sendStatus(401);
-
-    jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user as JwtPayload & { email: string };
-        next();
-    });
+    console.log('auth' + token);
+    if (!token) {
+      res.status(401).json({ message: 'No token provided' });
+      return next();
+    }
+    try {
+    // Verify the token and extract the user information
+    const payload = jwt.verify(token, secret) as User;
+    if (!payload || !payload.email) {
+      res.status(403).json({ message: 'Invalid token' });
+       return next();
+    }
+    req.user = payload;
+    return next();
+  } catch (err: any) {
+    console.error("AuthMiddleware error:", err.message);
+    return next();
+  }
 };

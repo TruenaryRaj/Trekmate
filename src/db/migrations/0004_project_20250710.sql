@@ -1,0 +1,1 @@
+ALTER TABLE `subLocation` RENAME COLUMN `estimatedDay` TO `estimatedTime`;

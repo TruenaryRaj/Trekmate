@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "cb3e01a6-73ca-4774-8b2b-b3953973ee6a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "9d9081a8-9de2-494b-98e3-4aea7e3f33dd",
+  "prevId": "cb3e01a6-73ca-4774-8b2b-b3953973ee6a",
   "tables": {
     "user": {
       "name": "user",
@@ -45,7 +45,7 @@
         },
         "phone": {
           "name": "phone",
-          "type": "int",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
