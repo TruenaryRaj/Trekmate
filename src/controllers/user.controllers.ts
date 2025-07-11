@@ -7,16 +7,16 @@ export const userController = {
     async addUser(req: Request, res: Response) {
         const { name, email, phone, role, password} = req.body;
         const hashed = await bcrypt.hash(password,10);
-        await userRepositories.createUser(
+        const result = await userRepositories.createUser(
             name,
             email,
             hashed,
             role,
             phone
         )
-        res.status(201).json({
-            message: 'user created sucessfully'
-        })
+        res.json({
+            message: result
+        });
     },
 
     async userLogin(req: Request, res: Response) {

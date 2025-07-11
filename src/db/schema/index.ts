@@ -15,3 +15,7 @@ export {
 export {
     accomodation
 } from './accomodations.schema'
+
+export {
+    booking
+} from './bookings.schema'

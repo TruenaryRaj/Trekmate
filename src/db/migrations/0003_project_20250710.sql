@@ -1,1 +1,0 @@
-ALTER TABLE `subLocation` MODIFY COLUMN `estimatedDay` varchar(20);

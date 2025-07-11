@@ -9,4 +9,7 @@ export default ({
   dbCredentials: {
     url: DATABASE_URL,
   },
+  casing: 'snake_case',
 });
+
+
