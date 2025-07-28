@@ -9,6 +9,6 @@ const app = express();
 app.use(express.json());
 app.use('/api', router); 
 
-app.listen(6969, () => {
+app.listen(6969, '0.0.0.0', () => {
   console.log('Server listening on port 6969');
 });
