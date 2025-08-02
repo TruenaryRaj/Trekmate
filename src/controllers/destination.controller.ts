@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { Destination } from "../types/destination.types";
 import { destinationRepositories } from "../repositories/destination.repositories";
 
 export const destinationController = {

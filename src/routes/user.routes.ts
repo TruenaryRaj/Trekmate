@@ -3,6 +3,6 @@ import bookingRouter from './booking.routes';
 
 const router = Router();
 
-router.use('/bookings', bookingRouter);
+router.use('/booking', bookingRouter);
 
 export default router;

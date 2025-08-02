@@ -1,4 +1,4 @@
 import { z } from 'zod';
 import { destinationSchema } from "../validations";
 
-export type Destination = z.infer<typeof destinationSchema>
+export type DestinationInput = z.infer<typeof destinationSchema>

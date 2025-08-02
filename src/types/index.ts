@@ -1,8 +1,8 @@
 
 export { 
-    userTypes, 
+    UserInput, 
     User,
-    RoleTypes
+    RoleTypes,
  } from './user.types';
 
  export { 
@@ -10,13 +10,17 @@ export {
  } from './express'
 
  export {
-    Location
+    LocationInput
  } from './location.types'
 
  export {
-    Destination
+    DestinationInput
  } from './destination.types'
 
  export {
-    Accomodation
+    AccomodationInput
  } from './accomodation.types'
+
+ export {
+   BookingInput
+ } from './booking.types'

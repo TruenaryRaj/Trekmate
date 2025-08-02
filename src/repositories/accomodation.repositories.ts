@@ -11,6 +11,12 @@ export const accomodationRepositories = {
             locationId
         })
         return result.insertId;
+    },
+
+    async getAllAccomodation() {
+        const result = await db.select().from(accomodation);
+        return result;
     }
+    
 }
 

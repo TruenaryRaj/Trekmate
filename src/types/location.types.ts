@@ -1,4 +1,4 @@
 import { locationSchema } from "../validations";
 import { z } from 'zod';
 
-export type Location = z.infer< typeof locationSchema>
+export type LocationInput = z.infer< typeof locationSchema>

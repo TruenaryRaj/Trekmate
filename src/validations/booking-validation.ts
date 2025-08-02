@@ -1,8 +1,9 @@
-import z, { int } from "zod";
+import z, { int, string } from "zod";
 export const serviceEnum = z.enum(['accomodation', 'transportation']);
 
-export const bookingSchema = z.object({
+export const bookingInputSchema = z.object({
     userId: int(),
     serviceType: serviceEnum,
-    serviceId: int()
+    serviceId: int(),
+    date: string(),  
 })
