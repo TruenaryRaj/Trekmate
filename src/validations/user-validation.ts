@@ -1,4 +1,4 @@
-import { z, string, number } from 'zod';
+import { z, string } from 'zod';
 
 export const roleEnum = z.enum(['user', 'admin']);
 

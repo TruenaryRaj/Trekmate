@@ -6,6 +6,7 @@ import { timestamps } from "./timestamp.columns";
 export const destination = mysqlTable('destination', {
     id: int().primaryKey().autoincrement(),
     name: varchar({ length: 50}),
+    shortDescription: varchar({ length: 255}),
     description: varchar({ length: 255}),
     ...timestamps
 })

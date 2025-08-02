@@ -1,5 +1,6 @@
 export {
-    user
+    user,
+    userRelations
 } from './user.schema'
 
 export {
@@ -17,5 +18,6 @@ export {
 } from './accomodations.schema'
 
 export {
-    booking
+    booking,
+    bookingRelation
 } from './bookings.schema'

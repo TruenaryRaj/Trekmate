@@ -7,13 +7,13 @@ export const userController = {
     async addUser(req: Request, res: Response) {
         const { name, email, phone, role, password} = req.body;
         const hashed = await bcrypt.hash(password,10);
-        const result = await userRepositories.createUser(
+        const result = await userRepositories.createUser({
             name,
             email,
-            hashed,
+            password: hashed,
             role,
             phone
-        )
+           })
         res.json({
             message: result
         });
@@ -34,7 +34,8 @@ export const userController = {
         }
         const token = generateToken(
             validateUser[0].email!,
-            validateUser[0].role!
+            validateUser[0].role!,
+            validateUser[0].id!,
         );
         res.status(201).json({
             token,

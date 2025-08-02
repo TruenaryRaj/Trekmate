@@ -1,4 +1,4 @@
-import { Location } from "../types";
+import { LocationInput } from "../types";
 import { db } from '../db/db';
 import { location } from "../db/schema";
 export const locationRepositories = {
