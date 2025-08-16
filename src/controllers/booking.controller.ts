@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { bookingRepositories } from "../repositories/booking.repositories";
+import { transportationBookingRepositories } from "../repositories/transportation-booking.repositories";
 
 
 export const bookingController = {
@@ -10,9 +10,8 @@ export const bookingController = {
             throw new Error("unauthorized user");
             
         }
-        const{ serviceType, serviceId, date} = req.body;
-        console.log( userId, serviceType, serviceId, date);
-        const result = await bookingRepositories.createBooking({ userId, serviceType, serviceId, date });
+        const{ transportationId, date} = req.body;
+        const result = await transportationBookingRepositories.createBooking({ userId, transportationId, date });
         if(result) {
             res.json({
                 message: "booking done"

@@ -2,16 +2,16 @@ import { NextFunction, Request, Response } from "express";
 import { accomodationRepositories } from "../repositories/accomodation.repositories";
 
 export const accomodationController = {
-    async addAccomodation(req: Request, res: Response, next: NextFunction) {
+    async addAccomodation(req: Request, res: Response) {
         const { 
             name, 
-            ownerName,
-            phone,
             description,
-            locationId
+            destinationId,
+            price,
+            time
         } = req.body;
 
-        const result = await accomodationRepositories.addAccomodation(name, ownerName, phone, description, locationId);
+        const result = await accomodationRepositories.addAccomodation({name,  description, destinationId, price, time});
         if(result)
         {
             res.json({

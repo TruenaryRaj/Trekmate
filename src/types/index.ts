@@ -10,10 +10,6 @@ export {
  } from './express'
 
  export {
-    LocationInput
- } from './location.types'
-
- export {
     DestinationInput
  } from './destination.types'
 
@@ -22,5 +18,7 @@ export {
  } from './accomodation.types'
 
  export {
-   BookingInput
+   AccomodationBooking,
+   StatusEnum,
+   TransportationBooking
  } from './booking.types'

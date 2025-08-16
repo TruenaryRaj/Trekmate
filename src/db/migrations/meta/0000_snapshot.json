@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "41a65dc5-d191-43e3-9caa-bfd3647f6af1",
+  "id": "7a5f9ca9-803b-4f70-8a36-437edab97dad",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "accomodation": {
@@ -21,20 +21,6 @@
           "notNull": false,
           "autoincrement": false
         },
-        "owner_name": {
-          "name": "owner_name",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "phone": {
-          "name": "phone",
-          "type": "varchar(10)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "description": {
           "name": "description",
           "type": "varchar(255)",
@@ -42,9 +28,23 @@
           "notNull": false,
           "autoincrement": false
         },
-        "location_id": {
-          "name": "location_id",
+        "destination_id": {
+          "name": "destination_id",
           "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "price": {
+          "name": "price",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "time": {
+          "name": "time",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -69,12 +69,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "accomodation_location_id_location_id_fk": {
-          "name": "accomodation_location_id_location_id_fk",
+        "accomodation_destination_id_destination_id_fk": {
+          "name": "accomodation_destination_id_destination_id_fk",
           "tableFrom": "accomodation",
-          "tableTo": "location",
+          "tableTo": "destination",
           "columnsFrom": [
-            "location_id"
+            "destination_id"
           ],
           "columnsTo": [
             "id"
@@ -94,8 +94,8 @@
       "uniqueConstraints": {},
       "checkConstraint": {}
     },
-    "booking": {
-      "name": "booking",
+    "accomodation_booking": {
+      "name": "accomodation_booking",
       "columns": {
         "id": {
           "name": "id",
@@ -111,23 +111,23 @@
           "notNull": true,
           "autoincrement": false
         },
-        "service_type": {
-          "name": "service_type",
-          "type": "enum('accomodation','transportation')",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "service_id": {
-          "name": "service_id",
+        "accomodation_id": {
+          "name": "accomodation_id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
+        "date": {
+          "name": "date",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "status": {
           "name": "status",
-          "type": "enum('pending','conformed','cancelled')",
+          "type": "enum('pending','conformed','cancelled','completed')",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
@@ -153,9 +153,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "booking_user_id_user_id_fk": {
-          "name": "booking_user_id_user_id_fk",
-          "tableFrom": "booking",
+        "accomodation_booking_user_id_user_id_fk": {
+          "name": "accomodation_booking_user_id_user_id_fk",
+          "tableFrom": "accomodation_booking",
           "tableTo": "user",
           "columnsFrom": [
             "user_id"
@@ -165,11 +165,121 @@
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
+        },
+        "accomodation_booking_accomodation_id_accomodation_id_fk": {
+          "name": "accomodation_booking_accomodation_id_accomodation_id_fk",
+          "tableFrom": "accomodation_booking",
+          "tableTo": "accomodation",
+          "columnsFrom": [
+            "accomodation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "booking_id": {
-          "name": "booking_id",
+        "accomodation_booking_id": {
+          "name": "accomodation_booking_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "transportation_booking": {
+      "name": "transportation_booking",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "transportation_id": {
+          "name": "transportation_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "date": {
+          "name": "date",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('pending','conformed','cancelled','completed')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'pending'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(0)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(0)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "transportation_booking_user_id_user_id_fk": {
+          "name": "transportation_booking_user_id_user_id_fk",
+          "tableFrom": "transportation_booking",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "transportation_booking_transportation_id_transportation_id_fk": {
+          "name": "transportation_booking_transportation_id_transportation_id_fk",
+          "tableFrom": "transportation_booking",
+          "tableTo": "transportation",
+          "columnsFrom": [
+            "transportation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "transportation_booking_id": {
+          "name": "transportation_booking_id",
           "columns": [
             "id"
           ]
@@ -192,6 +302,13 @@
           "name": "name",
           "type": "varchar(50)",
           "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "short_description": {
+          "name": "short_description",
+          "type": "varchar(255)",
+          "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
@@ -199,7 +316,7 @@
           "name": "description",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
@@ -225,89 +342,6 @@
       "compositePrimaryKeys": {
         "destination_id": {
           "name": "destination_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "checkConstraint": {}
-    },
-    "location": {
-      "name": "location",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "estimated_time": {
-          "name": "estimated_time",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "destination_id": {
-          "name": "destination_id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(0)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(now())"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(0)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "onUpdate": true,
-          "default": "(now())"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "location_destination_id_destination_id_fk": {
-          "name": "location_destination_id_destination_id_fk",
-          "tableFrom": "location",
-          "tableTo": "destination",
-          "columnsFrom": [
-            "destination_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "location_id": {
-          "name": "location_id",
           "columns": [
             "id"
           ]
@@ -410,23 +444,30 @@
           "notNull": true,
           "autoincrement": true
         },
-        "number_plate": {
-          "name": "number_plate",
-          "type": "varchar(20)",
+        "destiantion_id": {
+          "name": "destiantion_id",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "phone": {
-          "name": "phone",
-          "type": "varchar(10)",
+        "price": {
+          "name": "price",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "time": {
+          "name": "time",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "owner_name": {
-          "name": "owner_name",
-          "type": "varchar(50)",
+        "vechile_type_id": {
+          "name": "vechile_type_id",
+          "type": "int",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -450,7 +491,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "transportation_destiantion_id_destination_id_fk": {
+          "name": "transportation_destiantion_id_destination_id_fk",
+          "tableFrom": "transportation",
+          "tableTo": "destination",
+          "columnsFrom": [
+            "destiantion_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "transportation_vechile_type_id_vehicle_type_id_fk": {
+          "name": "transportation_vechile_type_id_vehicle_type_id_fk",
+          "tableFrom": "transportation",
+          "tableTo": "vehicle_type",
+          "columnsFrom": [
+            "vechile_type_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {
         "transportation_id": {
           "name": "transportation_id",
@@ -459,14 +527,45 @@
           ]
         }
       },
-      "uniqueConstraints": {
-        "transportation_numberPlate_unique": {
-          "name": "transportation_numberPlate_unique",
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "vehicle_type": {
+      "name": "vehicle_type",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "capacity": {
+          "name": "capacity",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "vehicle_type_id": {
+          "name": "vehicle_type_id",
           "columns": [
-            "number_plate"
+            "id"
           ]
         }
       },
+      "uniqueConstraints": {},
       "checkConstraint": {}
     }
   },

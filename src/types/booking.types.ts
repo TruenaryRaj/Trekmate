@@ -1,5 +1,6 @@
 import z from "zod";
-import { bookingInputSchema, serviceEnum } from "../validations/booking-validation";
+import { transportationBooking, statusEnum, accomodationBooking } from "../validations/booking-validation";
 
-export type BookingInput = z.infer<typeof bookingInputSchema>
-export type Service = z.infer<typeof serviceEnum>
+export type TransportationBooking = z.infer<typeof transportationBooking>
+export type AccomodationBooking = z.infer<typeof accomodationBooking>
+export type StatusEnum = z.infer<typeof statusEnum>

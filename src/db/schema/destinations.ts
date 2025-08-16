@@ -1,16 +1,18 @@
 import { relations } from "drizzle-orm";
 import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
-import { location } from "./locations.schema";
 import { timestamps } from "./timestamp.columns";
+import { transportation } from "./transportation.schema";
+import { accomodation } from "./accomodations.schema";
 
 export const destination = mysqlTable('destination', {
     id: int().primaryKey().autoincrement(),
-    name: varchar({ length: 50}),
+    name: varchar({ length: 50}).notNull(),
     shortDescription: varchar({ length: 255}),
-    description: varchar({ length: 255}),
+    description: varchar({ length: 255}).notNull(),
     ...timestamps
 })
 
 export const destinationRelations = relations(destination,({ many }) => ({
-    locations: many(location)
+    transportations: many(transportation),
+    accomodations: many(accomodation)
 }) )

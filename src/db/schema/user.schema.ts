@@ -1,7 +1,7 @@
 import { int, mysqlTable, varchar, mysqlEnum } from "drizzle-orm/mysql-core";
 import { timestamps } from "./timestamp.columns";
 import { relations } from "drizzle-orm";
-import { booking } from "./bookings.schema";
+import { accomodationBooking, transportationBooking } from "./bookings.schema";
 
 export const user = mysqlTable('user', {
     id: int().primaryKey().autoincrement(),
@@ -14,5 +14,6 @@ export const user = mysqlTable('user', {
 });
 
 export const userRelations = relations(user, ({many}) => ({
-    booking: many(booking)
+    accomodationBookings: many(accomodationBooking),
+    transportationBookings: many(transportationBooking)
 }))
