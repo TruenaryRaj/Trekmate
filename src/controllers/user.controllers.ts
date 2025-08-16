@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import { generateToken } from '../middleware/auth.middleware';
 export const userController = {
 
-    async addUser(req: Request, res: Response) {
+    async signup(req: Request, res: Response) {
         const { name, email, phone, role, password} = req.body;
         const hashed = await bcrypt.hash(password,10);
         const result = await userRepositories.createUser({
@@ -19,7 +19,7 @@ export const userController = {
         });
     },
 
-    async userLogin(req: Request, res: Response) {
+    async login(req: Request, res: Response) {
         const { email, password} = req.body;
         const validateUser = await userRepositories.findUserByEmail(email);
         if(validateUser == null)

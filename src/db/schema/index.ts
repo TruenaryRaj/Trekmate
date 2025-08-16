@@ -3,10 +3,6 @@ export {
     userRelations
 } from './user.schema'
 
-export {
-    location,
-    locationRelation
-} from './locations.schema'
 
 export {
     destination,
@@ -18,6 +14,8 @@ export {
 } from './accomodations.schema'
 
 export {
-    booking,
-    bookingRelation
+    transportationBooking,
+    accomodationBooking,
+    accomodationBookingRelation,
+    transportationBookingRelation
 } from './bookings.schema'

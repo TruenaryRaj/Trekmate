@@ -2,6 +2,7 @@ import { user } from "../db/schema/user.schema";
 import { db } from "../db/db";
 import { eq } from "drizzle-orm";
 import { RoleTypes, UserInput } from "../types";
+import { email } from "zod";
 
 
 export const userRepositories = {
@@ -25,8 +26,16 @@ export const userRepositories = {
     } 
     },
 
+    async me (id: number) {
+        return await db.select({
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            role: user.role,
+        }).from(user).where(eq(user.id, id));
+    },
+
     async findUserByEmail (email: string) {
-        const result = await db.select().from(user).where(eq(user.email, email));
-        return result;
+        return await db.select().from(user).where(eq(user.email, email));
     }
 } 

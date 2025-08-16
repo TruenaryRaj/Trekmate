@@ -3,8 +3,8 @@ import { destinationRepositories } from "../repositories/destination.repositorie
 
 export const destinationController = {
     async addDestination (req: Request, res: Response) {
-            const { name, description } = req.body;
-            const result = await destinationRepositories.addDestination(name, description);
+            const { name, description, shortDescription} = req.body;
+            const result = await destinationRepositories.addDestination({name, description, shortDescription});
             if(result) {
                 res.json({
                     message: "inserted"

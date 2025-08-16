@@ -1,1 +1,0 @@
-ALTER TABLE `booking` ADD `date` varchar(50);

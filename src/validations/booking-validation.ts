@@ -1,9 +1,14 @@
 import z, { int, string } from "zod";
-export const serviceEnum = z.enum(['accomodation', 'transportation']);
+export const statusEnum = z.enum(['pending', 'conformed', 'cancelled', 'completed']).default('pending');
 
-export const bookingInputSchema = z.object({
+export const accomodationBooking = z.object({
     userId: int(),
-    serviceType: serviceEnum,
-    serviceId: int(),
-    date: string(),  
+    accomodationId: int(),
+    date: string(),
+})
+
+export const transportationBooking = z.object({
+    userId: int(),
+    transportationId: int(),
+    date: string(),
 })
