@@ -21,3 +21,7 @@ export {
 export {
     transportationBookingRepositories
 } from './transportation-booking.repositories'
+
+export {
+    transportationRepositories
+} from './transportation.repositories'

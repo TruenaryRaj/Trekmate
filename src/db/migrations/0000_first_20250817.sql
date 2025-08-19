@@ -42,6 +42,17 @@ CREATE TABLE `destination` (
 	CONSTRAINT `destination_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `transportation` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`destiantion_id` int NOT NULL,
+	`price` int NOT NULL,
+	`time` varchar(50),
+	`vechile_type_id` int,
+	`created_at` timestamp(0) NOT NULL DEFAULT (now()),
+	`updated_at` timestamp(0) DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `transportation_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `user` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(255),
@@ -55,19 +66,8 @@ CREATE TABLE `user` (
 	CONSTRAINT `user_email_unique` UNIQUE(`email`)
 );
 --> statement-breakpoint
-CREATE TABLE `transportation` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`destiantion_id` int NOT NULL,
-	`price` int NOT NULL,
-	`time` varchar(50),
-	`vechile_type_id` int,
-	`created_at` timestamp(0) NOT NULL DEFAULT (now()),
-	`updated_at` timestamp(0) DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT `transportation_id` PRIMARY KEY(`id`)
-);
---> statement-breakpoint
 CREATE TABLE `vehicle_type` (
-	`id` int NOT NULL,
+	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`capacity` int NOT NULL,
 	CONSTRAINT `vehicle_type_id` PRIMARY KEY(`id`)

@@ -19,3 +19,16 @@ export {
     accomodationBookingRelation,
     transportationBookingRelation
 } from './bookings.schema'
+
+export {
+    transportation,
+    transportationRelation
+} from './transportation.schema'
+
+export {
+    vehicleType
+} from './vehicles-type.schema'
+
+export {
+    image
+} from './images.schema'

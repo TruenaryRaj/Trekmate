@@ -7,7 +7,7 @@ import { transportationBooking } from "./bookings.schema";
 
 export const transportation = mysqlTable('transportation', {
     id: int().primaryKey().autoincrement(),
-    destiantionId: int().references( ()=> destination.id).notNull(),
+    destinationId: int().references( ()=> destination.id).notNull(),
     price: int().notNull(),
     time: varchar({ length: 50 }),
     vechileTypeId: int().references( ()=> vehicleType.id),
@@ -17,7 +17,7 @@ export const transportation = mysqlTable('transportation', {
 export const transportationRelation = relations(transportation, ({ many, one }) => ({
     transportationBookings: many(transportationBooking),
     destination: one(destination, ({
-        fields: [transportation.destiantionId],
+        fields: [transportation.destinationId],
         references: [destination.id]
     }))
 })

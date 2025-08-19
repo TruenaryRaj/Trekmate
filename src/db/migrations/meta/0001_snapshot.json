@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c5438dbf-4819-4e85-b2e0-4feb58e111f5",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "630cc353-3a38-487a-98bd-c856c99424dd",
+  "prevId": "c5438dbf-4819-4e85-b2e0-4feb58e111f5",
   "tables": {
     "accomodation": {
       "name": "accomodation",
@@ -360,8 +360,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "destiantion_id": {
-          "name": "destiantion_id",
+        "destination_id": {
+          "name": "destination_id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
@@ -408,12 +408,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "transportation_destiantion_id_destination_id_fk": {
-          "name": "transportation_destiantion_id_destination_id_fk",
+        "transportation_destination_id_destination_id_fk": {
+          "name": "transportation_destination_id_destination_id_fk",
           "tableFrom": "transportation",
           "tableTo": "destination",
           "columnsFrom": [
-            "destiantion_id"
+            "destination_id"
           ],
           "columnsTo": [
             "id"
@@ -573,7 +573,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"transportation\".\"destiantion_id\"": "\"transportation\".\"destination_id\""
+    }
   },
   "internal": {
     "tables": {},

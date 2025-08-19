@@ -22,3 +22,9 @@ export {
    StatusEnum,
    TransportationBooking
  } from './booking.types'
+
+ export {
+ Transportation,
+ VehiclesType,
+ File
+ } from './transportation.types'
