@@ -9,7 +9,7 @@ export const accomodationController = {
             description,
             destinationId,
             price,
-            time
+            days
         } = req.body;
       
         const files = req.files as Express.Multer.File[]; // Multer files
@@ -27,7 +27,7 @@ export const accomodationController = {
             res.status(400).json({ error: 'No images provided' });
         }
 
-        const result = await accomodationRepositories.addAccomodation({name,  description, destinationId, price, time, urls: imageUrls});
+        const result = await accomodationRepositories.addAccomodation({name,  description, destinationId, price, days, urls: imageUrls});
         if(result)
         {
             res.json({

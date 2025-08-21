@@ -1,14 +1,10 @@
 export {
-
+accomodationBookingRepositories
 } from './accomodation-booking.repositories'
 
 export {    
     accomodationRepositories
 } from './accomodation.repositories'
-
-export {
-    
-} from './admin.repositories'
 
 export {
     destinationRepositories

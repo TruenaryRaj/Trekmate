@@ -24,10 +24,17 @@ router.post('/add',
 );
 
 router.get(
+  "/get/:id",
+  authenticateToken,
+  authorize(["admin", "user"]),
+  destinationController.getDestinationById
+);
+
+router.get(
   "/get",
   authenticateToken,
   authorize(["admin", "user"]),
-  destinationController.getDestinations
+  destinationController.getAllDestinations
 );
 
 export default router;

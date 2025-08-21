@@ -4,7 +4,7 @@ import { handleImageUpload } from "../utils";
 
 export const destinationController = {
     async addDestination (req: Request, res: Response) {
-            const { name, description, shortDescription} = req.body;
+            const { name, description, shortDescription, highestElivation, region } = req.body;
 
             const files = req.files as Express.Multer.File[]; // Multer files
             let imageUrls = [] ;
@@ -21,7 +21,7 @@ export const destinationController = {
                 res.status(400).json({ error: 'No images provided' });
             }
 
-            const result = await destinationRepositories.addDestination({name, description, shortDescription, urls: imageUrls});
+            const result = await destinationRepositories.addDestination({name, description, shortDescription, highestElivation, region, urls: imageUrls});
             if(result) {
                 res.json({
                     message: "inserted"
@@ -29,8 +29,20 @@ export const destinationController = {
             }
     },
 
-    async getDestinations(req: Request, res: Response) {
-        const destinations = await destinationRepositories.getAllDestination();
+    async getDestinationById(req: Request, res: Response) {
+        const id = parseInt(req.params.id);
+        if (!id) {
+            res.status(400).json({ error: 'Destination ID is required' });
+        }
+        const { page, limit, sortBy } = req.body;
+       
+        const destinations = await destinationRepositories.getDestinationById(id, {page, limit, sortBy});
         res.json(destinations);
     },
+
+    async getAllDestinations(req: Request, res: Response) {
+        const { page, limit, sortBy } = req.body;
+        const destinations = await destinationRepositories.getAllDestination({page, limit, sortBy});
+        res.json(destinations);
+    }
 }

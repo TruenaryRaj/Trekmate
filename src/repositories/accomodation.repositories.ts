@@ -9,7 +9,7 @@ export const accomodationRepositories = {
             description,
             destinationId,
             price,
-            time, 
+            days, 
             urls
         } = input;
     try{
@@ -18,7 +18,7 @@ export const accomodationRepositories = {
         description,
         destinationId,
         price,
-        time
+        days
     })
     for(const url of urls) {
         await imageRepositories.addImage({

@@ -6,3 +6,4 @@ export { vehiclesTypeSchema } from './vehicles-type-validation';
 export { transportationSchema } from './transportation-validation';
 export { statusEnum } from './booking-validation';
 export { imageSchema, relatedEnums } from './image-validation';
+export { SortOrder, paginationInput } from './input-validation';

@@ -8,7 +8,9 @@ export const transportationController = {
             destinationId,
             price,
             time,
-            vehiclesType
+            vehiclesType,
+            grade, 
+            distance
         } = req.body;
 
 
@@ -30,7 +32,7 @@ export const transportationController = {
                 }
 
         const result = await transportationRepositories.addTransportation({
-            destinationId, price, time, vehiclesType, urls: imageUrls});
+            destinationId, price, time, vehiclesType, grade, distance,urls: imageUrls});
         if (result) {
             res.json({
                 message: "Transportation added successfully",

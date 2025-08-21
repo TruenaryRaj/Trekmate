@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c5438dbf-4819-4e85-b2e0-4feb58e111f5",
+  "id": "af1307ac-5e78-4b80-8df8-51b438babfa4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "accomodation": {
@@ -42,11 +42,11 @@
           "notNull": true,
           "autoincrement": false
         },
-        "time": {
-          "name": "time",
-          "type": "varchar(50)",
+        "days": {
+          "name": "days",
+          "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
@@ -319,6 +319,20 @@
           "notNull": true,
           "autoincrement": false
         },
+        "highest_elivation": {
+          "name": "highest_elivation",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "region": {
+          "name": "region",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp(0)",
@@ -350,6 +364,68 @@
       "uniqueConstraints": {},
       "checkConstraint": {}
     },
+    "image": {
+      "name": "image",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "related_id": {
+          "name": "related_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "related_types": {
+          "name": "related_types",
+          "type": "enum('accomodation','transportation','destination')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(0)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(0)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "image_id": {
+          "name": "image_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
     "transportation": {
       "name": "transportation",
       "columns": {
@@ -360,8 +436,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "destiantion_id": {
-          "name": "destiantion_id",
+        "destination_id": {
+          "name": "destination_id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
@@ -378,7 +454,21 @@
           "name": "time",
           "type": "varchar(50)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "distance": {
+          "name": "distance",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "grade": {
+          "name": "grade",
+          "type": "enum('Easy','Moderate','Hard')",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "vechile_type_id": {
@@ -408,12 +498,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "transportation_destiantion_id_destination_id_fk": {
-          "name": "transportation_destiantion_id_destination_id_fk",
+        "transportation_destination_id_destination_id_fk": {
+          "name": "transportation_destination_id_destination_id_fk",
           "tableFrom": "transportation",
           "tableTo": "destination",
           "columnsFrom": [
-            "destiantion_id"
+            "destination_id"
           ],
           "columnsTo": [
             "id"

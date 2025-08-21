@@ -1,4 +1,4 @@
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { timestamps } from "./timestamp.columns";
 import { destination } from "./destinations";
 import { vehicleType } from "./vehicles-type.schema";
@@ -9,7 +9,9 @@ export const transportation = mysqlTable('transportation', {
     id: int().primaryKey().autoincrement(),
     destinationId: int().references( ()=> destination.id).notNull(),
     price: int().notNull(),
-    time: varchar({ length: 50 }),
+    time: varchar({ length: 50 }).notNull(),
+    distance: varchar({ length: 50}).notNull(),
+    grade: mysqlEnum(['Easy', 'Moderate', 'Hard']).notNull(),
     vechileTypeId: int().references( ()=> vehicleType.id),
     ...timestamps
 })

@@ -28,3 +28,7 @@ export {
  VehiclesType,
  File
  } from './transportation.types'
+
+ export {
+   PaginationInput
+ } from './input.types'

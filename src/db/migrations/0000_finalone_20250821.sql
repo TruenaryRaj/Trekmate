@@ -4,7 +4,7 @@ CREATE TABLE `accomodation` (
 	`description` varchar(255),
 	`destination_id` int,
 	`price` int NOT NULL,
-	`time` varchar(50),
+	`days` int NOT NULL,
 	`created_at` timestamp(0) NOT NULL DEFAULT (now()),
 	`updated_at` timestamp(0) DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `accomodation_id` PRIMARY KEY(`id`)
@@ -37,16 +37,30 @@ CREATE TABLE `destination` (
 	`name` varchar(50) NOT NULL,
 	`short_description` varchar(255),
 	`description` varchar(255) NOT NULL,
+	`highest_elivation` int NOT NULL,
+	`region` varchar(50) NOT NULL,
 	`created_at` timestamp(0) NOT NULL DEFAULT (now()),
 	`updated_at` timestamp(0) DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `destination_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `image` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`related_id` int NOT NULL,
+	`related_types` enum('accomodation','transportation','destination') NOT NULL,
+	`url` varchar(255) NOT NULL,
+	`created_at` timestamp(0) NOT NULL DEFAULT (now()),
+	`updated_at` timestamp(0) DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `image_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `transportation` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`destiantion_id` int NOT NULL,
+	`destination_id` int NOT NULL,
 	`price` int NOT NULL,
-	`time` varchar(50),
+	`time` varchar(50) NOT NULL,
+	`distance` varchar(50) NOT NULL,
+	`grade` enum('Easy','Moderate','Hard') NOT NULL,
 	`vechile_type_id` int,
 	`created_at` timestamp(0) NOT NULL DEFAULT (now()),
 	`updated_at` timestamp(0) DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
@@ -78,5 +92,5 @@ ALTER TABLE `accomodation_booking` ADD CONSTRAINT `accomodation_booking_user_id_
 ALTER TABLE `accomodation_booking` ADD CONSTRAINT `accomodation_booking_accomodation_id_accomodation_id_fk` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodation`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `transportation_booking` ADD CONSTRAINT `transportation_booking_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `transportation_booking` ADD CONSTRAINT `transportation_booking_transportation_id_transportation_id_fk` FOREIGN KEY (`transportation_id`) REFERENCES `transportation`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `transportation` ADD CONSTRAINT `transportation_destiantion_id_destination_id_fk` FOREIGN KEY (`destiantion_id`) REFERENCES `destination`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `transportation` ADD CONSTRAINT `transportation_destination_id_destination_id_fk` FOREIGN KEY (`destination_id`) REFERENCES `destination`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `transportation` ADD CONSTRAINT `transportation_vechile_type_id_vehicle_type_id_fk` FOREIGN KEY (`vechile_type_id`) REFERENCES `vehicle_type`(`id`) ON DELETE no action ON UPDATE no action;
