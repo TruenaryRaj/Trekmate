@@ -9,6 +9,8 @@ export const destination = mysqlTable('destination', {
     name: varchar({ length: 50}).notNull(),
     shortDescription: varchar({ length: 255}),
     description: varchar({ length: 255}).notNull(),
+    highestElivation: int().notNull(),
+    region: varchar({ length: 50}).notNull(),
     ...timestamps
 })
 

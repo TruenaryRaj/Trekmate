@@ -4,14 +4,20 @@ import { transportationBooking } from '../db/schema';
 import { TransportationBooking } from '../types/booking.types';
 export const transportationBookingRepositories = {
     async createBooking(input: TransportationBooking) {
-        const { userId, transportationId, date} = input;
-       const [result] = await db.insert(transportationBooking).values({
+       const { userId, transportationId, date} = input;
+       try{
+        const [result] = await db.insert(transportationBooking).values({
         userId,
         transportationId,
         date
        });
+    
        return result.insertId;
+        } catch (error) {
+            throw new Error('Failed to create transportation booking'); 
+         }
     },
+
     async editBooking(input: TransportationBooking) {
         const { userId, date} = input;
         const [result] = await db.update(transportationBooking).set({

@@ -1,4 +1,4 @@
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { timestamps } from "./timestamp.columns";
 import { destination } from "./destinations";
 import { vehicleType } from "./vehicles-type.schema";
@@ -7,9 +7,11 @@ import { transportationBooking } from "./bookings.schema";
 
 export const transportation = mysqlTable('transportation', {
     id: int().primaryKey().autoincrement(),
-    destiantionId: int().references( ()=> destination.id).notNull(),
+    destinationId: int().references( ()=> destination.id).notNull(),
     price: int().notNull(),
-    time: varchar({ length: 50 }),
+    time: varchar({ length: 50 }).notNull(),
+    distance: varchar({ length: 50}).notNull(),
+    grade: mysqlEnum(['Easy', 'Moderate', 'Hard']).notNull(),
     vechileTypeId: int().references( ()=> vehicleType.id),
     ...timestamps
 })
@@ -17,7 +19,7 @@ export const transportation = mysqlTable('transportation', {
 export const transportationRelation = relations(transportation, ({ many, one }) => ({
     transportationBookings: many(transportationBooking),
     destination: one(destination, ({
-        fields: [transportation.destiantionId],
+        fields: [transportation.destinationId],
         references: [destination.id]
     }))
 })

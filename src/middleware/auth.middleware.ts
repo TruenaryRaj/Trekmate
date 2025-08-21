@@ -4,13 +4,12 @@ import jwt from 'jsonwebtoken';
 
 const secret = process.env.JWT_SECRET || 'secretkey';
 export const generateToken = ( email: string, role: RoleTypes, id: number) : string => {
-        const token = jwt.sign(
+        return jwt.sign(
             { email, role, id },
             secret,
             { expiresIn: '1h'}
         );
-        return token;
-    }
+}
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];

@@ -26,10 +26,14 @@ export const transportationBooking = mysqlTable('transportation_booking', {
 
 
 export const accomodationBookingRelation = relations(accomodationBooking, ({one}) => ({
-    transportation: one(accomodation,{
+    accomodation: one(accomodation,{
         fields: [accomodationBooking.accomodationId],
         references: [accomodation.id]
-    })
+    }),
+    user: one(user, {
+        fields: [accomodationBooking.userId],
+        references: [user.id]
+    }),
 })
 )
 
@@ -37,6 +41,10 @@ export const transportationBookingRelation = relations(transportationBooking, ({
     transportation: one(transportation,{
         fields: [transportationBooking.transportationId],
         references: [transportation.id]
-    })
+    }),
+    user: one(user, {
+        fields: [transportationBooking.userId], 
+        references: [user.id]
+    }),
 })
 )

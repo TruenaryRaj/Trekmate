@@ -1,5 +1,5 @@
 import { Router } from "express";
-import bookingRouter from './booking.routes';
+import bookingRouter from './accomodation-booking.routes';
 
 const router = Router();
 

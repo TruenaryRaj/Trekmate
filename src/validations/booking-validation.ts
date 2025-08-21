@@ -1,4 +1,4 @@
-import z, { int, string } from "zod";
+import {z, int, string } from "zod";
 export const statusEnum = z.enum(['pending', 'conformed', 'cancelled', 'completed']).default('pending');
 
 export const accomodationBooking = z.object({
