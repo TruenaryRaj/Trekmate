@@ -8,3 +8,14 @@ DB_PORT= 3306
 JWT_SECRET= 'secretkey'
 
 configure this before seting up this project.
+
+
+flow of project:
+
+create admin:
+add destination - accomodation - transportation
+
+create user - book accordingly like transportation/accomodation
+
+user can view their part of booking only
+admin can see all
