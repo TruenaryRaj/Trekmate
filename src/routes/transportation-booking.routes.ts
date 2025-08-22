@@ -5,6 +5,9 @@ import { transportationBookingController } from "../controllers/transportation-b
 
 const router = Router();
 
-router.post('/create', authenticateToken, authorize(['user']), transportationBookingController.createBooking);
+router.post('/transportation', authenticateToken, authorize(['user']), transportationBookingController.createBooking);
+router.get('/transportation/:id', authenticateToken, authorize(['admin']), transportationBookingController.getBookingsByTransportationId);
+router.get('/trans/user/:id', authenticateToken, authorize(['admin', 'user']), transportationBookingController.getBookingsByUserId);
+router.get('/transportation', authenticateToken, authorize(['admin']), transportationBookingController.getAllBookings);
 
 export default router;
