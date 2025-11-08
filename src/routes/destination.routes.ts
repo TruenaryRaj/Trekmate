@@ -30,11 +30,4 @@ router.get(
   destinationController.getDestinationById
 );
 
-router.get(
-  "/get",
-  authenticateToken,
-  authorize(["admin", "user"]),
-  destinationController.getAllDestinations
-);
-
 export default router;

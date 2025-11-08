@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { accomodationBookingRepositories } from '../repositories';
-import th from 'zod/v4/locales/th.cjs';
 
 export const accomodationBookingController = {
     async createBooking(req: Request, res: Response) {

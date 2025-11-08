@@ -13,11 +13,4 @@ router.post('/add',
     transportationController.addTransportation 
 );
 
-router.get(
-    "/get",
-    authenticateToken,
-    authorize(["admin", "user"]),
-    transportationController.getTransportations
-);
-
 export default router;

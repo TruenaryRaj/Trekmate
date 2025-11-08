@@ -32,3 +32,5 @@ export {
  export {
    PaginationInput
  } from './input.types'
+
+ export * from './utils.types';
