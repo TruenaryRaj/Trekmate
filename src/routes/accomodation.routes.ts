@@ -23,11 +23,4 @@ router.post(
   accomodationController.addAccomodation
 );
 
-router.get(
-  "/get",
-  authenticateToken,
-  authorize(["admin", "user"]),
-  accomodationController.getAccomodations
-);
-
 export default router;
