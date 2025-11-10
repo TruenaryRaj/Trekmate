@@ -29,20 +29,17 @@ export const destinationRepositories = {
         }
     },
 
-    async getDestinationById(id: number, input: PaginationInput) {
-        const { page = 1, limit = 5, sortBy = 'asc' } = input;
-        const offset = (page - 1) * limit;
-
-        const result = await db.select().from(destination)
-        .leftJoin(image, and(eq(destination.id , image.relatedId), eq(image.relatedTypes, 'destination')))
-        .leftJoin(accomodation, eq(destination.id, accomodation.destinationId))
-        .leftJoin(transportation, eq(destination.id, transportation.destinationId))
-        .limit(limit)
-        .offset(offset)
-        .orderBy(destination.name, sortBy == 'asc' ? (destination.name) : (desc(destination.name)))
-        .where(eq(destination.id, id));
-
-        return result;
+    async getDestinationById(id: number) {
+        try{ 
+            const result = await db.select().from(destination)
+            .leftJoin(image, and(eq(destination.id , image.relatedId), eq(image.relatedTypes, 'destination')))
+            .leftJoin(accomodation, eq(destination.id, accomodation.destinationId))
+            .leftJoin(transportation, eq(destination.id, transportation.destinationId))
+            .where(eq(destination.id, id));
+            return result;
+        } catch{
+            throw new Error('Failed to get destination by id');
+        }
     },
 
     async getAllDestination(input: PaginationInput) {
