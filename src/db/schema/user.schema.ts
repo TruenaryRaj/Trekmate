@@ -1,4 +1,4 @@
-import { int, mysqlTable, varchar, mysqlEnum } from "drizzle-orm/mysql-core";
+import { int, mysqlTable, varchar, mysqlEnum, boolean } from "drizzle-orm/mysql-core";
 import { timestamps } from "./timestamp.columns";
 import { relations } from "drizzle-orm";
 import { accomodationBooking, transportationBooking } from "./bookings.schema";
@@ -10,6 +10,7 @@ export const user = mysqlTable('user', {
     password: varchar({ length: 255}),
     role: mysqlEnum(['user', 'admin']).default('user'),
     phone: varchar({ length: 10}),
+    isValidEmail: boolean().default(false),
     ...timestamps
 });
 

@@ -4,9 +4,9 @@ import { th } from 'zod/locales';
 
 export const transportationBookingController = {
     async createBooking(req: Request, res: Response) {
-        const { transportationId, date } = req.body;    
+        const { transportationId, dispatchDate, returnDate } = req.body;    
         const userId = req.user?.id;
-        if (!userId || !transportationId || !date) {
+        if (!userId || !transportationId || !dispatchDate || !returnDate) {
             throw new Error('Missing required fields');
         }
 
@@ -14,7 +14,8 @@ export const transportationBookingController = {
             const bookingId = await transportationBookingRepositories.createBooking({
                 userId,
                 transportationId,
-                date
+                dispatchDate,
+                returnDate
             });
             res.status(201).json({ message: 'Booking created successfully', bookingId });
         } catch (error) {

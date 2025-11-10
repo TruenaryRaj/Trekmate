@@ -6,6 +6,5 @@ export const accomodationSchema = z.object({
     description: string(),
     destinationId: number(),
     price: number(),
-    days: number(),
-    urls: z.array(string())
+    urls: z.array(string()),
 })

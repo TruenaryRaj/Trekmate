@@ -1,8 +1,10 @@
 import { Router } from "express";
-import bookingRouter from './accomodation-booking.routes';
+import accomodationBookingRouter from './accomodation-booking.routes';
+import transportationBookingRouter from './transportation-booking.routes';
 
 const router = Router();
 
-router.use('/booking', bookingRouter);
+router.use('/transportation', transportationBookingRouter);
+router.use('/accomodation', accomodationBookingRouter);
 
 export default router;

@@ -8,7 +8,7 @@ import { and, eq } from "drizzle-orm";
 export const transportationRepositories = {
     async addTransportation( input: Transportation) {
 
-        const { destinationId, price, time, vehiclesType, grade, distance, urls } = input;
+        const { destinationId, price, vehiclesType, grade, urls } = input;
 
         // Parse vehiclesType if it's a string
         const vehiclesTypeObj = typeof vehiclesType === 'string' ? JSON.parse(vehiclesType) : vehiclesType;
@@ -18,9 +18,7 @@ export const transportationRepositories = {
             const [result] = await db.insert(transportation).values({
             destinationId,
             price,
-            time,
             grade,
-            distance,
             vechileTypeId: vehiclesTypeId
         });
 

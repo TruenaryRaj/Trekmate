@@ -8,6 +8,20 @@
       "when": 1755772535589,
       "tag": "0000_finalone_20250821",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1762582199316,
+      "tag": "0001_second_one_20251108",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1762766827356,
+      "tag": "0002_third_20251110",
+      "breakpoints": true
     }
   ]
 }

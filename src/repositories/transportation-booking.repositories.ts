@@ -1,16 +1,19 @@
 import { desc, eq } from 'drizzle-orm';
 import { db } from '../db/db';
 import { transportationBooking } from '../db/schema';
-import { TransportationBooking } from '../types/booking.types';
+import { StatusEnum, TransportationBooking } from '../types/booking.types';
 import { PaginationInput } from '../types';
+import { userRepositories } from './user.repositories';
+import { sendEmail } from '../utils';
 export const transportationBookingRepositories = {
     async createBooking(input: TransportationBooking) {
-       const { userId, transportationId, date} = input;
+       const { userId, transportationId, dispatchDate, returnDate} = input;
        try{
         const [result] = await db.insert(transportationBooking).values({
         userId,
         transportationId,
-        date
+        dispatchDate,
+        returnDate
        });
     
        return result.insertId;
@@ -20,9 +23,10 @@ export const transportationBookingRepositories = {
     },
 
     async editBooking(input: TransportationBooking) {
-        const { userId, date} = input;
+        const { userId, dispatchDate, returnDate} = input;
         const [result] = await db.update(transportationBooking).set({
-        date
+        dispatchDate,
+        returnDate
        }).where(eq(transportationBooking.userId, userId));
        return result.insertId;
     },
@@ -35,7 +39,7 @@ export const transportationBookingRepositories = {
         .where(eq(transportationBooking.transportationId, transportationId))
         .limit(limit)
         .offset(offset)
-        .orderBy(transportationBooking.date, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
+        .orderBy(transportationBooking.createdAt, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
         } catch (error) {
             throw new Error('Failed to retrieve bookings by transportation ID');
         }
@@ -49,7 +53,7 @@ export const transportationBookingRepositories = {
         .where(eq(transportationBooking.userId, userId))
         .limit(limit)
         .offset(offset)
-        .orderBy(transportationBooking.date, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
+        .orderBy(transportationBooking.createdAt, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
         } catch (error) {
             throw new Error('Failed to retrieve bookings by user ID');
         }
@@ -62,9 +66,38 @@ export const transportationBookingRepositories = {
         return await db.select().from(transportationBooking)
         .limit(limit)
         .offset(offset)
-        .orderBy(transportationBooking.date, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
+        .orderBy(transportationBooking.createdAt, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
         } catch (error) {
             throw new Error('Failed to retrieve all bookings');
         }
     },
+
+    getBooking: async(id: number) => {
+        try{
+            return await db.select().from(transportationBooking).where(eq(transportationBooking.id, id));
+        } catch {
+            throw new Error("Error in fetching booking");
+        }
+    },
+    bookingConformation: async (bookingId: number, status: StatusEnum, userId: number ) => {
+        try{
+            const bookedTransportation = await transportationBookingRepositories.getBooking(bookingId);
+            await db.update(transportationBooking).set({
+                status: status
+            }).where(eq(transportationBooking.id, bookingId));
+            const userInfo = await userRepositories.me(userId);
+        
+            sendEmail({
+            receiver: userInfo[0].email!,
+            topic: "BOOKING_CONFIRMATION",
+                subject: "Booking confirmation",
+                name: userInfo[0].name!,
+                bookingDetails: {
+                    dispatchDate: bookedTransportation[0].dispatchDate
+                }
+            })
+        } catch {
+            throw new Error("Error in booking conformation");
+        }
+    }
 }

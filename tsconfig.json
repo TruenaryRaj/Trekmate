@@ -5,10 +5,12 @@
     "rootDir": "./src",                           // Where TypeScript source files live
     "outDir": "./dist",                           // Where compiled JavaScript goes
     "moduleResolution": "node",                   // Node-style module resolution
+    "ignoreDeprecations": "6.0",                // Ignore deprecation warnings from dependencies
     "esModuleInterop": true,                      // Allow default imports from CommonJS modules
     "forceConsistentCasingInFileNames": true,     // Prevent casing errors between OSes
     "strict": true,                               // Enable all strict type checks
     "skipLibCheck": true                          // Skip type checking for node_modules
   },
-  "include": ["src/index.ts"]      
+  "include": ["src/index.ts"],
+  "exclude": ["dist", "node_modules"]      
 }

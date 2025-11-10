@@ -9,8 +9,6 @@ export const transportation = mysqlTable('transportation', {
     id: int().primaryKey().autoincrement(),
     destinationId: int().references( ()=> destination.id).notNull(),
     price: int().notNull(),
-    time: varchar({ length: 50 }).notNull(),
-    distance: varchar({ length: 50}).notNull(),
     grade: mysqlEnum(['Easy', 'Moderate', 'Hard']).notNull(),
     vechileTypeId: int().references( ()=> vehicleType.id),
     ...timestamps
