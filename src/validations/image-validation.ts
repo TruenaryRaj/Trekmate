@@ -1,6 +1,6 @@
 import z from "zod"
 
-export const relatedEnums = z.enum(['accomodation', 'transportation', 'destination']).default('accomodation');
+export const relatedEnums = z.enum(['accomodation', 'transportation', 'destination', 'user']).default('accomodation');
    
    
 export const imageSchema = z.object({

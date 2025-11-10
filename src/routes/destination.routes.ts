@@ -23,11 +23,4 @@ router.post('/add',
     destinationController.addDestination 
 );
 
-router.get(
-  "/get/:id",
-  authenticateToken,
-  authorize(["admin", "user"]),
-  destinationController.getDestinationById
-);
-
 export default router;

@@ -7,14 +7,9 @@ export const transportationController = {
         const {
             destinationId,
             price,
-            time,
             vehiclesType,
             grade, 
-            distance
         } = req.body;
-
-
-        console.log(req.body);
 
         const files = req.files as Express.Multer.File[]; // Multer files
                 let imageUrls = [] ;
@@ -32,7 +27,8 @@ export const transportationController = {
                 }
 
         const result = await transportationRepositories.addTransportation({
-            destinationId, price, time, vehiclesType, grade, distance,urls: imageUrls});
+            destinationId, price, vehiclesType, grade, urls: imageUrls
+        });
         if (result) {
             res.json({
                 message: "Transportation added successfully",

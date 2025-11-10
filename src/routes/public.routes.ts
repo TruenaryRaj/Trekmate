@@ -6,17 +6,22 @@ import { transportationController } from "../controllers/transportation.controll
 const router = Router();
 
 router.get(
-  "/get",
+  "/destinations",
   destinationController.getAllDestinations
 );
+router.get(
+  "/destination/:id",
+  destinationController.getDestinationById
+);
+
 
 router.get(
-  "/get",
+  "/accomodations",
   accomodationController.getAccomodations
 );
 
 router.get(
-    "/get",
+    "/transportations",
     transportationController.getTransportations
 );
 export default router;

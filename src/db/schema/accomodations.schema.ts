@@ -10,7 +10,6 @@ export const accomodation = mysqlTable('accomodation', {
     description: varchar({ length: 255}),
     destinationId: int().references( ()=> destination.id),
     price: int().notNull(),
-    days: int().notNull(),
     ...timestamps
 })
 

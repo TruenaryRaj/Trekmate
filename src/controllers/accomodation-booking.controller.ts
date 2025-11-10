@@ -4,9 +4,9 @@ import { accomodationBookingRepositories } from '../repositories';
 export const accomodationBookingController = {
     async createBooking(req: Request, res: Response) {
         console.log(req.body);
-        const { accomodationId, date } = req.body;    
+        const { accomodationId, endingDate, startingDate } = req.body;    
         const userId = req.user?.id;
-        if (!userId || !accomodationId || !date) {
+        if (!userId || !accomodationId || !endingDate || !startingDate) {
             throw new Error('Missing required fields');
         }
 
@@ -14,7 +14,8 @@ export const accomodationBookingController = {
             const bookingId = await accomodationBookingRepositories.createBooking({
                 userId,
                 accomodationId,
-                date
+                endingDate,
+                startingDate
             });
             res.status(201).json({ message: 'Booking created successfully', bookingId });
         } catch (error) {

@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { timestamps } from "./timestamp.columns";
 import { user } from './user.schema'
 import { relations } from "drizzle-orm";
@@ -9,7 +9,8 @@ export const accomodationBooking = mysqlTable('accomodation_booking', {
     id: int().primaryKey().autoincrement(),
     userId: int().references( () => user.id).notNull(),
     accomodationId: int().references( ()=> accomodation.id).notNull(),
-    date: varchar({ length: 50}),
+    startingDate: timestamp({ fsp: 0 }).notNull(),
+    endingDate: timestamp({ fsp: 0 }).notNull(),
     status: mysqlEnum(['pending', 'conformed', 'cancelled', 'completed']).default('pending'),
     ...timestamps
 })
@@ -19,7 +20,8 @@ export const transportationBooking = mysqlTable('transportation_booking', {
     id: int().primaryKey().autoincrement(),
     userId: int().references( () => user.id).notNull(),
     transportationId: int().references( ()=> transportation.id).notNull(),
-    date: varchar({ length: 50}),
+    dispatchDate: timestamp({ fsp: 0 }).notNull(),
+    returnDate: timestamp({ fsp: 0 }).notNull(),
     status: mysqlEnum(['pending', 'conformed', 'cancelled', 'completed']).default('pending'),
     ...timestamps
 })

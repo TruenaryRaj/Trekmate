@@ -1,6 +1,6 @@
 import { EmailInfo } from '../types';
 import nodemailer from 'nodemailer';
-import { mailTemplates } from './template.utils';
+import { mailTemplates } from './template';
 
 
 const transporter = nodemailer.createTransport({

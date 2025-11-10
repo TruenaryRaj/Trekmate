@@ -7,5 +7,6 @@ export const userSchema = z.object({
     email: string().min(12, "email"),
     password: string(),
     role: roleEnum,
-    phone: string()
+    phone: string(),
+    imagePath: string().optional()
 })
