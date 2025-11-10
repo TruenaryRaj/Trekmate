@@ -34,9 +34,8 @@ export const destinationController = {
         if (!id) {
             res.status(400).json({ error: 'Destination ID is required' });
         }
-        const { page, limit, sortBy } = req.body;
        
-        const destinations = await destinationRepositories.getDestinationById(id, {page, limit, sortBy});
+        const destinations = await destinationRepositories.getDestinationById(id);
         res.json(destinations);
     },
 

@@ -21,6 +21,11 @@ router.get(
 );
 
 router.get(
+    "/accomodation/:id",
+    accomodationController.getAccomodationById
+);
+
+router.get(
     "/transportations",
     transportationController.getTransportations
 );

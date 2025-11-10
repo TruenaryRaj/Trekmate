@@ -39,4 +39,13 @@ export const accomodationController = {
         const accomodations = await accomodationRepositories.getAllAccomodation();
         res.json(accomodations);
     },
+
+    async getAccomodationById(req: Request, res: Response) {
+        const id = parseInt(req.params.id);
+        if(!id) {
+            res.status(400).json({ error: 'Accomodation ID is required' });
+        }
+        const accomodation = await accomodationRepositories.getAccomodation(id);
+        res.json(accomodation);
+    }
 }

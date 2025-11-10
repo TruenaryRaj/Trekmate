@@ -37,5 +37,15 @@ export const accomodationRepositories = {
         return result;
     },
 
+    async getAccomodation(id: number) {
+        try{
+            return await db.select().from(accomodation)
+            .leftJoin(image, and(eq(accomodation.id , image.relatedId), eq(image.relatedTypes, 'accomodation')))
+            .where(eq(accomodation.id, id));
+        } catch{
+            throw new Error('Failed to get accomodation by id');
+        }
+    }
+
 }
 
