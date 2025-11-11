@@ -5,10 +5,11 @@ import { accomodationBookingController } from "../controllers/accomodation-booki
 
 const router = Router();
 
-router.post('/booking', authenticateToken, authorize(['user']), accomodationBookingController.createBooking);
+router.post('/book', authenticateToken, authorize(['user']), accomodationBookingController.createBooking);
 router.get('/booking/:id', authenticateToken, authorize(['admin']), accomodationBookingController.getBookingsByAccomodationId);
 router.get('/booking/user/:id', authenticateToken, authorize(['admin', 'user']), accomodationBookingController.getBookings);
 router.get('/bookings', authenticateToken, authorize(['admin']), accomodationBookingController.getAllBookings);
+router.delete('/booking/:id', authenticateToken, authorize(['user']), accomodationBookingController.cancelBooking);
 
 
 export default router;

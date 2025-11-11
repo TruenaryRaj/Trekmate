@@ -1,6 +1,6 @@
 import { Transportation } from "../types";
 import { db } from "../db/db";
-import { image, transportation } from "../db/schema";
+import { image, transportation, transportationBooking } from "../db/schema";
 import { vehiclesTypeRepositories } from "./vehicles-type-repositories";
 import { imageRepositories } from "./image.repositories";
 import { and, eq } from "drizzle-orm";
@@ -41,4 +41,18 @@ export const transportationRepositories = {
         .leftJoin(image, and(eq(transportation.id , image.relatedId), eq(image.relatedTypes, 'transportation')));
         return result;
     },
+
+    async deleteTransportation(id: number) {
+        try {
+            const bookedEntries =  await db.select().from(transportationBooking).where(eq(transportationBooking.transportationId, id));
+            if(bookedEntries.length > 0) {
+                throw new Error('Cannot delete transportation with existing bookings');
+            }            
+            await db.delete(transportation).where(eq(transportation.id, id));
+            await imageRepositories.deleteImageByRelatedId(id, 'transportation');
+            await vehiclesTypeRepositories.deleteVehiclesType(id);
+        } catch (error) {
+            throw new Error('Failed to delete transportation');
+        }
+    }
 }

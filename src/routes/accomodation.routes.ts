@@ -23,4 +23,10 @@ router.post(
   accomodationController.addAccomodation
 );
 
+router.delete('/accomodation/:id', 
+    authenticateToken, 
+    authorize(['admin']),
+    accomodationController.deleteAccomodation
+);
+
 export default router;

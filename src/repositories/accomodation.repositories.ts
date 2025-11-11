@@ -1,8 +1,9 @@
-import { accomodation, image } from '../db/schema';
+import { accomodation, accomodationBooking, image } from '../db/schema';
 import { db } from '../db/db'
 import { AccomodationInput } from '../types';
 import { imageRepositories } from './image.repositories';
 import { eq, and } from 'drizzle-orm';
+
 export const accomodationRepositories = {
     async addAccomodation(input: AccomodationInput) {
         const {  name,
@@ -45,7 +46,19 @@ export const accomodationRepositories = {
         } catch{
             throw new Error('Failed to get accomodation by id');
         }
-    }
+    },
 
+    async deleteAccomodation(id: number) {
+        try {
+            const bookedEntries =  await db.select().from(accomodationBooking).where(eq(accomodationBooking.accomodationId, id));
+            if(bookedEntries.length > 0) {
+                throw new Error('Cannot delete accomodation with existing bookings');
+            }
+            await db.delete(accomodation).where(eq(accomodation.id, id));
+            await imageRepositories.deleteImageByRelatedId(id, 'accomodation');
+        } catch (error) {
+            throw new Error('Failed to delete accomodation');
+        }
+    }
 }
 

@@ -62,6 +62,16 @@ export const accomodationBookingController = {
         } catch (error) {
             res.status(500).json({ error: 'Failed to retrieve all bookings' });
         }
+    },
+
+    async cancelBooking(req: Request, res: Response) {
+        const id = req.body;
+        try {
+            await accomodationBookingRepositories.cancelBooking(id);
+            res.status(200).json({ message: 'Booking deleted successfully' });
+        } catch {
+            throw new Error("Error in deleting booking");
+        }
     }
 }
 

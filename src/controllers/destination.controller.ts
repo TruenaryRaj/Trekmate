@@ -43,5 +43,15 @@ export const destinationController = {
         const { page, limit, sortBy } = req.body;
         const destinations = await destinationRepositories.getAllDestination({page, limit, sortBy});
         res.json(destinations);
+    },
+
+    async deleteDestination(req: Request, res: Response) {
+        const id = req.body;
+        try {
+            await destinationRepositories.deleteDestination(id);
+            res.status(200).json({ message: 'Destination deleted successfully' });
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to delete destination' });
+        }   
     }
 }
