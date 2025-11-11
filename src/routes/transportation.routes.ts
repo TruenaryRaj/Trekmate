@@ -13,4 +13,7 @@ router.post('/add',
     transportationController.addTransportation 
 );
 
+router.delete('/transportation/:id', authenticateToken, authorize(['admin']), transportationController.deleteTransportation);
+
+
 export default router;

@@ -23,4 +23,10 @@ router.post('/add',
     destinationController.addDestination 
 );
 
+router.delete('/destination/:id', 
+    authenticateToken, 
+    authorize(['admin']),
+    destinationController.deleteDestination
+);
+
 export default router;

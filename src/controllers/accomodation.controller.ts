@@ -47,5 +47,15 @@ export const accomodationController = {
         }
         const accomodation = await accomodationRepositories.getAccomodation(id);
         res.json(accomodation);
+    },
+
+    async deleteAccomodation(req: Request, res: Response) {
+        const id = req.body;
+        try {
+            await accomodationRepositories.deleteAccomodation(id);
+            res.status(200).json({ message: 'Accomodation deleted successfully' });
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to delete accomodation' });
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { desc, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { db } from '../db/db';
 import { transportationBooking } from '../db/schema';
 import { StatusEnum, TransportationBooking } from '../types/booking.types';
@@ -9,15 +9,18 @@ export const transportationBookingRepositories = {
     async createBooking(input: TransportationBooking) {
        const { userId, transportationId, dispatchDate, returnDate} = input;
        try{
+        const newDispatchDate = new Date(dispatchDate);
+        const newReturnDate = new Date(returnDate);
+
         const [result] = await db.insert(transportationBooking).values({
-        userId,
-        transportationId,
-        dispatchDate,
-        returnDate
+            userId,
+            transportationId,
+            dispatchDate: newDispatchDate,
+            returnDate: newReturnDate
        });
-    
        return result.insertId;
         } catch (error) {
+            console.log(error);
             throw new Error('Failed to create transportation booking'); 
          }
     },
@@ -98,6 +101,19 @@ export const transportationBookingRepositories = {
             })
         } catch {
             throw new Error("Error in booking conformation");
+        }
+    },
+
+    cancelBooking: async (id: number) => {
+        try{
+            const bookingDetails = await transportationBookingRepositories.getBooking(id);
+            if(bookingDetails[0].status == 'conformed') {
+                throw new Error("Cannot cancel a conformed booking, contact via mail to customer support");
+            }
+            await db.delete(transportationBooking)
+            .where(eq(transportationBooking.id, id));
+        } catch {
+            throw new Error("Error in deleting booking");
         }
     }
 }

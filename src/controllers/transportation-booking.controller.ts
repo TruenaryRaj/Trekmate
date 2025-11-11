@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { transportationBookingRepositories } from '../repositories';
-import { th } from 'zod/locales';
 
 export const transportationBookingController = {
     async createBooking(req: Request, res: Response) {
@@ -9,7 +8,6 @@ export const transportationBookingController = {
         if (!userId || !transportationId || !dispatchDate || !returnDate) {
             throw new Error('Missing required fields');
         }
-
         try {
             const bookingId = await transportationBookingRepositories.createBooking({
                 userId,
@@ -75,6 +73,16 @@ export const transportationBookingController = {
             res.status(200).json(bookings);
         } catch (error) {
             res.status(500).json({ error: 'Failed to retrieve all bookings' });
+        }
+    },
+
+    async cancelBooking(req: Request, res: Response) {
+        const id = req.body;
+        try {
+            await transportationBookingRepositories.cancelBooking(id);
+            res.status(200).json({ message: 'Booking deleted successfully' });
+        } catch {
+            throw new Error("Error in deleting booking");
         }
     }
 

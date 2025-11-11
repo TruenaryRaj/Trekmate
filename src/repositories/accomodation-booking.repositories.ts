@@ -1,4 +1,4 @@
-import { desc, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { db } from '../db/db';
 import { accomodationBooking } from '../db/schema';
 import { AccomodationBooking, StatusEnum } from '../types/booking.types';
@@ -17,6 +17,7 @@ export const accomodationBookingRepositories = {
         });
        return result.insertId;
     },
+
     async editBooking(input: AccomodationBooking) {
         const { userId, startingDate, endingDate} = input;
         const [result] = await db.update(accomodationBooking).set({
@@ -49,10 +50,14 @@ export const accomodationBookingRepositories = {
     getAllBookings: async (input: PaginationInput) => {
         const { page = 1, limit = 5, sortBy = 'asc' } = input;
         const offset = (page - 1) * limit;
-        return await db.select().from(accomodationBooking)
+        try {
+            return await db.select().from(accomodationBooking)
             .limit(limit)
             .offset(offset)
             .orderBy(accomodationBooking.createdAt, sortBy === 'asc' ? (accomodationBooking.createdAt) : (desc(accomodationBooking.createdAt)));
+        } catch {
+            throw new Error("Error in fetching all bookings");
+        }
     },
 
     getBooking: async (bookingId: number) => {
@@ -85,6 +90,19 @@ export const accomodationBookingRepositories = {
             })
         } catch {
             throw new Error("Error in booking conformation");
+        }
+    },
+
+    async cancelBooking(id: number) {
+        try {
+            const bookingDetails = await accomodationBookingRepositories.getBooking(id);
+            if(bookingDetails[0].status == 'conformed') {
+                throw new Error("Cannot cancel a conformed booking, contact via mail to customer support");
+            }
+            await db.delete(accomodationBooking).where(eq(accomodationBooking.id, id));
+
+        } catch {
+            throw new Error("Error in cancelling booking");
         }
     }
 }

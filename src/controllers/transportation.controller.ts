@@ -40,4 +40,14 @@ export const transportationController = {
         const transportations = await transportationRepositories.getAllTransportation();
         res.json(transportations);
     },
+
+    async deleteTransportation(req: Request, res: Response) {
+        const id = req.body;
+        try {
+            await transportationRepositories.deleteTransportation(id);
+            res.status(200).json({ message: 'Transportation deleted successfully' });
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to delete transportation' });
+        }   
+    }
 }
