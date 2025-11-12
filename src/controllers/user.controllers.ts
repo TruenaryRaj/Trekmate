@@ -54,7 +54,10 @@ export const userController = {
         );
         res.status(201).json({
             token,
-            message: "user login sucessful"
+            message: "user login sucessful",
+            name: validateUser[0].name,
+            role: validateUser[0].role,
+            id: validateUser[0].id,
         })
     },
 

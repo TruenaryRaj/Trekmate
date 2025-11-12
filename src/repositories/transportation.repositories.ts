@@ -4,6 +4,7 @@ import { image, transportation, transportationBooking } from "../db/schema";
 import { vehiclesTypeRepositories } from "./vehicles-type-repositories";
 import { imageRepositories } from "./image.repositories";
 import { and, eq } from "drizzle-orm";
+import { PaginationInput, SortOrder } from "../types/input.types";
 
 export const transportationRepositories = {
     async addTransportation( input: Transportation) {
@@ -36,10 +37,29 @@ export const transportationRepositories = {
         }
     },
 
-    async getAllTransportation() {
-        const result = await db.select().from(transportation)
-        .leftJoin(image, and(eq(transportation.id , image.relatedId), eq(image.relatedTypes, 'transportation')));
-        return result;
+    async getTransportation(id: number) {
+        try{
+            return await db.select().from(transportation)
+            .leftJoin(image, and(eq(transportation.id , image.relatedId), eq(image.relatedTypes, 'transportation')))
+            .where(eq(transportation.id, id));
+        } catch{
+            throw new Error('Failed to get transportation by id');
+        }
+    },
+
+    async getAllTransportation(input: PaginationInput) {
+        const { page, limit, sortBy } = input;
+        const offset = (page - 1) * limit;
+        try {    
+            const result = await db.select().from(transportation)
+            .leftJoin(image, and(eq(transportation.id , image.relatedId), eq(image.relatedTypes, 'transportation')))
+            .limit(limit)
+            .offset(offset)
+            .orderBy(transportation.id, sortBy == 'asc' ? (transportation.id) : (transportation.id));
+            return result;
+        } catch (error) {
+            throw new Error('Failed to get transportations');
+        }
     },
 
     async deleteTransportation(id: number) {

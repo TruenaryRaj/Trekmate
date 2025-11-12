@@ -29,4 +29,9 @@ router.get(
     "/transportations",
     transportationController.getTransportations
 );
+
+router.get(
+    "/transportation/:id",
+    transportationController.getTranspotrationById
+);
 export default router;

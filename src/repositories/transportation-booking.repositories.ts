@@ -1,6 +1,6 @@
 import { and, desc, eq } from 'drizzle-orm';
 import { db } from '../db/db';
-import { transportationBooking } from '../db/schema';
+import { transportationBooking, user } from '../db/schema';
 import { StatusEnum, TransportationBooking } from '../types/booking.types';
 import { PaginationInput } from '../types';
 import { userRepositories } from './user.repositories';
@@ -51,6 +51,7 @@ export const transportationBookingRepositories = {
         try {
         return await db.select().from(transportationBooking)
         .where(eq(transportationBooking.userId, userId))
+        
         .limit(limit)
         .offset(offset)
         .orderBy(transportationBooking.createdAt, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
@@ -64,6 +65,7 @@ export const transportationBookingRepositories = {
         const offset = (page - 1) * limit;
         try {
         return await db.select().from(transportationBooking)
+        .leftJoin(user, eq(transportationBooking.userId, user.id))
         .limit(limit)
         .offset(offset)
         .orderBy(transportationBooking.createdAt, sortBy === 'asc' ? (transportationBooking.createdAt) : (desc(transportationBooking.createdAt)));
