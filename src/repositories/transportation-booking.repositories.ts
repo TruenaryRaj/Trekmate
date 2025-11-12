@@ -111,8 +111,8 @@ export const transportationBookingRepositories = {
             }
             await db.delete(transportationBooking)
             .where(eq(transportationBooking.id, id));
-        } catch {
-            throw new Error("Error in deleting booking");
+        } catch (error){
+            throw error;
         }
     }
 }

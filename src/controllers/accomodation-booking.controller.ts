@@ -73,9 +73,9 @@ export const accomodationBookingController = {
         const id = parseInt(req.params.id);
         try {
             await accomodationBookingRepositories.cancelBooking(id);
-            res.status(200).json({ message: 'Booking deleted successfully' });
-        } catch {
-            throw new Error("Error in deleting booking");
+            res.status(200).json({ message: 'Booking cancelled successfully' });
+        } catch(error) {
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 }

@@ -87,8 +87,8 @@ export const transportationBookingController = {
         try {
             await transportationBookingRepositories.cancelBooking(id);
             res.status(200).json({ message: 'Booking deleted successfully' });
-        } catch {
-            throw new Error("Error in deleting booking");
+         } catch(error) {
+            res.status(500).json({ error: (error as Error).message });
         }
     }
 
