@@ -43,7 +43,7 @@ export const destinationRepositories = {
     },
 
     async getAllDestination(input: PaginationInput) {
-        const { page = 1, limit = 5, sortBy = 'asc' } = input;
+        const { page, limit, sortBy } = input;
         const offset = (page - 1) * limit;
 
         const result = await db.select().from(destination)
