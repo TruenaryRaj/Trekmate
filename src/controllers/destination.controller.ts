@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { destinationRepositories } from "../repositories/destination.repositories";
 import { handleImageUpload } from "../utils";
+import { SortOrder } from "../types/input.types";
 
 export const destinationController = {
     async addDestination (req: Request, res: Response) {
@@ -40,7 +41,9 @@ export const destinationController = {
     },
 
     async getAllDestinations(req: Request, res: Response) {
-        const { page, limit, sortBy } = req.body;
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
         const destinations = await destinationRepositories.getAllDestination({page, limit, sortBy});
         res.json(destinations);
     },
