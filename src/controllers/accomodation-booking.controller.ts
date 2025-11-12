@@ -5,7 +5,6 @@ export const accomodationBookingController = {
     async createBooking(req: Request, res: Response) {
         const { accomodationId, endingDate, startingDate } = req.body;    
         const userId = req.user?.id;
-        console.log(userId, accomodationId, endingDate, startingDate);
         if (!userId || !accomodationId || !endingDate || !startingDate) {
             throw new Error('Missing required fields');
         }
