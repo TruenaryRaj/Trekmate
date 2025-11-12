@@ -49,7 +49,7 @@ export const destinationController = {
     },
 
     async deleteDestination(req: Request, res: Response) {
-        const id = req.body;
+        const id = parseInt(req.params.id);
         try {
             await destinationRepositories.deleteDestination(id);
             res.status(200).json({ message: 'Destination deleted successfully' });
