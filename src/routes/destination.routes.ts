@@ -23,7 +23,7 @@ router.post('/add',
     destinationController.addDestination 
 );
 
-router.delete('/destination/:id', 
+router.delete('/delete/:id', 
     authenticateToken, 
     authorize(['admin']),
     destinationController.deleteDestination

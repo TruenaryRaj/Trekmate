@@ -19,7 +19,7 @@ export const transportationController = {
                     const imageUrl = await handleImageUpload(file);
                     if(imageUrl) imageUrls.push(imageUrl);
                     } catch (error) {
-                    res.status(500).json({ error: 'Failed to upload image' });
+                        res.status(500).json({ error: (error as Error).message });
                     }
                 }
                 } else {
@@ -42,12 +42,12 @@ export const transportationController = {
     },
 
     async deleteTransportation(req: Request, res: Response) {
-        const id = req.body;
+        const id = parseInt(req.params.id);
         try {
             await transportationRepositories.deleteTransportation(id);
             res.status(200).json({ message: 'Transportation deleted successfully' });
         } catch (error) {
-            res.status(500).json({ error: 'Failed to delete transportation' });
+            res.status(500).json({ error: (error as Error).message });
         }   
     }
 }

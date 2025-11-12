@@ -48,11 +48,15 @@ export const transportationRepositories = {
             if(bookedEntries.length > 0) {
                 throw new Error('Cannot delete transportation with existing bookings');
             }            
-            await db.delete(transportation).where(eq(transportation.id, id));
+            const trasnportationExist = await db.select().from(transportation).where(eq(transportation.id, id)).limit(1);
+            if(!trasnportationExist.length) {
+                throw new Error('Transportation not found');
+            }
             await imageRepositories.deleteImageByRelatedId(id, 'transportation');
-            await vehiclesTypeRepositories.deleteVehiclesType(id);
+            await db.delete(transportation).where(eq(transportation.id, id));
+            await vehiclesTypeRepositories.deleteVehiclesType(trasnportationExist[0].vechileTypeId!);
         } catch (error) {
-            throw new Error('Failed to delete transportation');
+            throw error;
         }
     }
 }

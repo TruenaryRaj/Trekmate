@@ -66,7 +66,7 @@ export const accomodationRepositories = {
             await db.delete(accomodation).where(eq(accomodation.id, id));
             await imageRepositories.deleteImageByRelatedId(id, 'accomodation');
         } catch (error) {
-            throw new Error('Failed to delete accomodation');
+            throw error;
         }
     }
 }

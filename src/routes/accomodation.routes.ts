@@ -23,7 +23,7 @@ router.post(
   accomodationController.addAccomodation
 );
 
-router.delete('/accomodation/:id', 
+router.delete('/delete/:id', 
     authenticateToken, 
     authorize(['admin']),
     accomodationController.deleteAccomodation
