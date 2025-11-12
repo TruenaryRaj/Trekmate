@@ -78,6 +78,9 @@ export const accomodationBookingRepositories = {
     bookingConformation: async (bookingId: number, status: StatusEnum, userId: number ) => {
         try{
             const bookedAccomodation =  await accomodationBookingRepositories.getBooking(bookingId);
+            if(!bookedAccomodation) {
+                throw new Error("booking not found")
+            }
             await db.update(accomodationBooking).set({
                 status: status
             }).where(eq(accomodationBooking.id, bookingId));
@@ -87,12 +90,9 @@ export const accomodationBookingRepositories = {
             sendEmail({
                 receiver: userInfo[0].email!,
                 topic: "BOOKING_CONFIRMATION",
-                subject: "Booking confirmation",
+                subject: "Accomodation booking confirmation",
                 name: userInfo[0].name!,
-                bookingDetails: {
-                    startDate: bookedAccomodation[0].startingDate,
-                    endDate: bookedAccomodation[0].endingDate,
-                }
+                status: status
             })
         } catch {
             throw new Error("Error in booking conformation");

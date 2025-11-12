@@ -5,9 +5,5 @@ export interface EmailInfo{
     name?: string;
     otp?: number;
     token?: string;
-    bookingDetails?: {
-        startDate?: Date;
-        endDate?: Date;
-        dispatchDate?: Date;
-    };
+    status?: string;
 }

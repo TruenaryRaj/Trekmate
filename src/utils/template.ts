@@ -246,8 +246,8 @@ export const mailTemplates = {
                         <div class="content">
                         <p>Dear ${input.name},</p>
                         <p>Welcome ${input.name}.</p>
-                        <p>Your bookings has been ${input.token}.</p>
-                        <p>Thank you for choosing our platform. We look forward to supporting you as your store grows and succeeds.</p>
+                        <p>Your bookings has been ${input.status}.</p>
+                        <p>Thank you for choosing our platform. We look forward to your sucessfull journey.</p>
                         <p>Best regards,<br>TrekMate</p>
                         </div>
                         <div class="footer">

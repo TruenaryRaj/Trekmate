@@ -10,6 +10,6 @@ router.get('/booking/:id', authenticateToken, authorize(['admin']), accomodation
 router.get('/booking/user/:id', authenticateToken, authorize(['admin', 'user']), accomodationBookingController.getBookings);
 router.get('/bookings', authenticateToken, authorize(['admin']), accomodationBookingController.getAllBookings);
 router.delete('/booking/:id', authenticateToken, authorize(['user']), accomodationBookingController.cancelBooking);
-
+router.put('/conformation', authenticateToken, authorize(['admin']), accomodationBookingController.bookingConformation);
 
 export default router;

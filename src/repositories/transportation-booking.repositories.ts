@@ -84,6 +84,9 @@ export const transportationBookingRepositories = {
     bookingConformation: async (bookingId: number, status: StatusEnum, userId: number ) => {
         try{
             const bookedTransportation = await transportationBookingRepositories.getBooking(bookingId);
+            if(!bookedTransportation) {
+                throw new Error("booking doesnot exists")
+            }
             await db.update(transportationBooking).set({
                 status: status
             }).where(eq(transportationBooking.id, bookingId));
@@ -92,11 +95,9 @@ export const transportationBookingRepositories = {
             sendEmail({
             receiver: userInfo[0].email!,
             topic: "BOOKING_CONFIRMATION",
-                subject: "Booking confirmation",
-                name: userInfo[0].name!,
-                bookingDetails: {
-                    dispatchDate: bookedTransportation[0].dispatchDate
-                }
+            subject: "Transportation booking confirmation",
+            name: userInfo[0].name!,                    
+            status: status
             })
         } catch {
             throw new Error("Error in booking conformation");
@@ -114,5 +115,5 @@ export const transportationBookingRepositories = {
         } catch (error){
             throw error;
         }
-    }
+    },
 }

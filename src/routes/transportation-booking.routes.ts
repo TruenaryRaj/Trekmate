@@ -10,5 +10,6 @@ router.get('/booking/:id', authenticateToken, authorize(['admin']), transportati
 router.get('/booking/user/:id', authenticateToken, authorize(['admin', 'user']), transportationBookingController.getBookingsByUserId);
 router.get('/bookings', authenticateToken, authorize(['admin']), transportationBookingController.getAllBookings);
 router.delete('/booking/:id', authenticateToken, authorize(['user']), transportationBookingController.cancelBooking);
+router.put('/conformation', authenticateToken, authorize(['admin']), transportationBookingController.bookingConformation);
 
 export default router;
