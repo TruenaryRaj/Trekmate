@@ -9,13 +9,18 @@ import { sendEmail } from '../utils';
 export const accomodationBookingRepositories = {
     async createBooking(input: AccomodationBooking) {
         const { userId, accomodationId, endingDate, startingDate} = input;
-        const [result] = await db.insert(accomodationBooking).values({
-            userId,
-            accomodationId,
-            startingDate,
-            endingDate
-        });
-       return result.insertId;
+        try {
+            const [result] = await db.insert(accomodationBooking).values({
+                userId,
+                accomodationId,
+                startingDate: new Date(startingDate),
+                endingDate: new Date(endingDate),
+            });
+            return result.insertId;
+        } catch(error){
+            console.log(error);
+            throw new Error("database Error in creating booking");
+        }
     },
 
     async editBooking(input: AccomodationBooking) {

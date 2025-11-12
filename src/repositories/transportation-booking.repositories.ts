@@ -9,14 +9,11 @@ export const transportationBookingRepositories = {
     async createBooking(input: TransportationBooking) {
        const { userId, transportationId, dispatchDate, returnDate} = input;
        try{
-        const newDispatchDate = new Date(dispatchDate);
-        const newReturnDate = new Date(returnDate);
-
         const [result] = await db.insert(transportationBooking).values({
             userId,
             transportationId,
-            dispatchDate: newDispatchDate,
-            returnDate: newReturnDate
+            dispatchDate: new Date(dispatchDate),
+            returnDate: new Date(returnDate)
        });
        return result.insertId;
         } catch (error) {

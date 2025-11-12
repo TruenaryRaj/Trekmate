@@ -3,7 +3,6 @@ import { accomodationBookingRepositories } from '../repositories';
 
 export const accomodationBookingController = {
     async createBooking(req: Request, res: Response) {
-        console.log(req.body);
         const { accomodationId, endingDate, startingDate } = req.body;    
         const userId = req.user?.id;
         if (!userId || !accomodationId || !endingDate || !startingDate) {
@@ -19,6 +18,7 @@ export const accomodationBookingController = {
             });
             res.status(201).json({ message: 'Booking created successfully', bookingId });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: 'Failed to create booking' });
         }
     },
