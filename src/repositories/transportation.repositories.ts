@@ -1,6 +1,6 @@
 import { Transportation } from "../types";
 import { db } from "../db/db";
-import { image, transportation, transportationBooking } from "../db/schema";
+import { image, transportation, transportationBooking, vehicleType } from "../db/schema";
 import { vehiclesTypeRepositories } from "./vehicles-type-repositories";
 import { imageRepositories } from "./image.repositories";
 import { and, eq } from "drizzle-orm";
@@ -53,6 +53,7 @@ export const transportationRepositories = {
         try {    
             const result = await db.select().from(transportation)
             .leftJoin(image, and(eq(transportation.id , image.relatedId), eq(image.relatedTypes, 'transportation')))
+            .leftJoin(vehicleType, eq(vehicleType.id, transportation.vechileTypeId))
             .limit(limit)
             .offset(offset)
             .orderBy(transportation.id, sortBy == 'asc' ? (transportation.id) : (transportation.id));
