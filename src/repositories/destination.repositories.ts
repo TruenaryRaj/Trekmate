@@ -57,15 +57,16 @@ export const destinationRepositories = {
 
     async deleteDestination(id: number) {
         try {
-            const destinationEntries = await db.select().from(destination).where(eq(destination.id, id))
-            .leftJoin(accomodation, eq(destination.id, accomodation.destinationId))
-            .leftJoin(transportation, eq(destination.id, transportation.destinationId));
+            console.log(id);
+            const destinationEntries = await db.select().from(accomodation).where(eq(accomodation.destinationId, id))
+            .leftJoin(transportation, eq(accomodation.destinationId, transportation.destinationId));
             if(destinationEntries.length > 0) {
                 throw new Error('Cannot delete destination with existing accomodations or transportations');
             }
             await db.delete(destination).where(eq(destination.id, id));
             await imageRepositories.deleteImageByRelatedId(id, 'destination');
         } catch (error) {
+            console.log(error);
             throw new Error('Failed to delete destination');
         }
     }
