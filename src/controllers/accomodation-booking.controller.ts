@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { accomodationBookingRepositories } from '../repositories';
+import { SortOrder } from '../types/input.types';
 
 export const accomodationBookingController = {
     async createBooking(req: Request, res: Response) {
@@ -24,12 +25,14 @@ export const accomodationBookingController = {
     },
 
     async getBookings(req: Request, res: Response) {
-        const userId = req.user?.id;
+        const userId = parseInt(req.params.id);
         if (!userId) {
            throw new Error('User ID is required');
         }
-        const { page, limit, sortBy } = req.body;
-
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
+        
         try {
             const bookings = await accomodationBookingRepositories.getBookingsByUserId(userId, { page, limit, sortBy });
             res.json(bookings);
@@ -54,7 +57,9 @@ export const accomodationBookingController = {
     },
 
     async getAllBookings(req: Request, res: Response) {
-        const { page, limit, sortBy } = req.body;
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
 
         try {
             const bookings = await accomodationBookingRepositories.getAllBookings({ page, limit, sortBy });
@@ -65,7 +70,7 @@ export const accomodationBookingController = {
     },
 
     async cancelBooking(req: Request, res: Response) {
-        const id = req.body;
+        const id = parseInt(req.params.id);
         try {
             await accomodationBookingRepositories.cancelBooking(id);
             res.status(200).json({ message: 'Booking deleted successfully' });

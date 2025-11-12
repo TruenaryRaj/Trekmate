@@ -1,6 +1,6 @@
 import { accomodation, accomodationBooking, image } from '../db/schema';
 import { db } from '../db/db'
-import { AccomodationInput } from '../types';
+import { AccomodationInput, PaginationInput } from '../types';
 import { imageRepositories } from './image.repositories';
 import { eq, and } from 'drizzle-orm';
 
@@ -32,10 +32,19 @@ export const accomodationRepositories = {
     }
     },
 
-    async getAllAccomodation() {
-        const result = await db.select().from(accomodation)
-        .leftJoin(image, and(eq(accomodation.id , image.relatedId), eq(image.relatedTypes, 'accomodation')));
-        return result;
+    async getAllAccomodation(input: PaginationInput) {
+        const { page, limit, sortBy } = input;
+        const offset = (page - 1) * limit;
+        try {
+            const result = await db.select().from(accomodation)
+            .leftJoin(image, and(eq(accomodation.id , image.relatedId), eq(image.relatedTypes, 'accomodation')))
+            .limit(limit)
+            .offset(offset)
+            .orderBy(accomodation.name, sortBy == 'asc' ? (accomodation.name) : (accomodation.name));
+            return result;
+        } catch (error) {
+            throw new Error('Failed to get accomodations');
+        }
     },
 
     async getAccomodation(id: number) {

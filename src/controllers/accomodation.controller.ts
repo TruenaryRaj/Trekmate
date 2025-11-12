@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { accomodationRepositories } from "../repositories/accomodation.repositories";
 import { handleImageUpload } from "../utils";
+import { SortOrder } from "../types/input.types";
 
 export const accomodationController = {
     async addAccomodation(req: Request, res: Response) {
@@ -36,8 +37,15 @@ export const accomodationController = {
     },
 
     async getAccomodations(req: Request, res: Response) {
-        const accomodations = await accomodationRepositories.getAllAccomodation();
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
+        try {
+        const accomodations = await accomodationRepositories.getAllAccomodation({ page, limit, sortBy });
         res.json(accomodations);
+        } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve accomodations' });
+        }
     },
 
     async getAccomodationById(req: Request, res: Response) {
@@ -50,7 +58,7 @@ export const accomodationController = {
     },
 
     async deleteAccomodation(req: Request, res: Response) {
-        const id = req.body;
+        const id = parseInt(req.params.id);
         try {
             await accomodationRepositories.deleteAccomodation(id);
             res.status(200).json({ message: 'Accomodation deleted successfully' });

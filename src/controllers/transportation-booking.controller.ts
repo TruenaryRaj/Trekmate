@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { transportationBookingRepositories } from '../repositories';
+import { SortOrder } from '../types/input.types';
 
 export const transportationBookingController = {
     async createBooking(req: Request, res: Response) {
@@ -23,7 +24,9 @@ export const transportationBookingController = {
 
     async getBookingsByTransportationId(req: Request, res: Response) {
         const transportationId = parseInt(req.params.id);
-        const { page, limit, sortBy } = req.body;
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
 
         if (!transportationId) {
             throw new Error('Transportation ID is required');
@@ -42,8 +45,10 @@ export const transportationBookingController = {
     },
 
     async getBookingsByUserId(req: Request, res: Response) {
-        const userId = req.user?.id;
-        const { page, limit, sortBy } = req.body;
+        const userId = parseInt(req.params.id);
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
 
         if (!userId) {
             throw new Error('Transportation ID is required');
@@ -62,8 +67,9 @@ export const transportationBookingController = {
     },
 
     async getAllBookings(req: Request, res: Response) {
-        const { page, limit, sortBy } = req.body;
-
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
         try {
             const bookings = await transportationBookingRepositories.getAllBookings({
                 page,
@@ -77,7 +83,7 @@ export const transportationBookingController = {
     },
 
     async cancelBooking(req: Request, res: Response) {
-        const id = req.body;
+        const id = parseInt(req.params.id);
         try {
             await transportationBookingRepositories.cancelBooking(id);
             res.status(200).json({ message: 'Booking deleted successfully' });
