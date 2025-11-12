@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { transportationRepositories } from "../repositories";
 import { handleImageUpload } from "../utils";
+import { SortOrder } from "../types/input.types";
 
 export const transportationController = {
     async addTransportation(req: Request, res: Response) {
@@ -35,9 +36,21 @@ export const transportationController = {
             });
         }
     },
-    
+
+    async getTranspotrationById(req: Request, res: Response) {
+        const id = parseInt(req.params.id);
+        if(!id) {
+            res.status(400).json({ error: 'Transpotration ID is required' });
+        }
+        const Transpotration = await transportationRepositories.getTransportation(id);
+        res.json(Transpotration);
+    },
+
     async getTransportations(req: Request, res: Response) {
-        const transportations = await transportationRepositories.getAllTransportation();
+        const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+        const sortBy = req.query.sortBy as SortOrder || 'asc'; 
+        const transportations = await transportationRepositories.getAllTransportation({ page, limit, sortBy });
         res.json(transportations);
     },
 

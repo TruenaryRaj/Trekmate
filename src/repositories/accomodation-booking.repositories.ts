@@ -1,6 +1,6 @@
 import { and, desc, eq } from 'drizzle-orm';
 import { db } from '../db/db';
-import { accomodationBooking } from '../db/schema';
+import { accomodationBooking, user } from '../db/schema';
 import { AccomodationBooking, StatusEnum } from '../types/booking.types';
 import { PaginationInput } from '../types';
 import { userRepositories } from './user.repositories';
@@ -57,6 +57,7 @@ export const accomodationBookingRepositories = {
         const offset = (page - 1) * limit;
         try {
             return await db.select().from(accomodationBooking)
+            .leftJoin(user, eq(accomodationBooking.userId, user.id))
             .limit(limit)
             .offset(offset)
             .orderBy(accomodationBooking.createdAt, sortBy === 'asc' ? (accomodationBooking.createdAt) : (desc(accomodationBooking.createdAt)));
