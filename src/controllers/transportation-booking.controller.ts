@@ -93,10 +93,9 @@ export const transportationBookingController = {
     },
 
     async bookingConformation(req: Request, res: Response) {
-        const { id, status } = req.body;
-        const userId = req.user?.id;
+        const { id, status, userId } = req.body;
         try{
-            await transportationBookingRepositories.bookingConformation(id, status, userId!);
+            await transportationBookingRepositories.bookingConformation(id, status, userId);
             res.status(200).json({ message: 'Booking status changed' });
         } catch(error) {
             res.status(500).json({ error: (error as Error).message });
